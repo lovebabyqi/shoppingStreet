@@ -4,7 +4,10 @@ import router from './router'
 
 //让components/common/index 执行
 import 'components/common'
-
+import VueLazyload from 'vue-lazyload';
+Vue.use(VueLazyload, {
+    loading:require('assets/img/common/placeholder.png')
+})
 //全局注册
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 // require styles
