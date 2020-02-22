@@ -10,10 +10,33 @@
     import BScroll from 'better-scroll'
     export default {
         name: "MyScroll",
+        data(){
+            return {
+                scroll:null
+            }
+        },
         mounted() {
-            new BScroll(this.$refs.wrapper,{
-                click:true
+            //初始化better-scroll
+            this.scroll = new BScroll(this.$refs.wrapper,{
+                click:true,//允许在滚动区域点击
+                pullUpLoad:true,//允许监听pullingUp事件
             })
+            //监听 滚动到页面区域最底部 默认只能监听到一次
+            this.scroll.on('pullingUp',()=>{
+                this.$emit('loadMore')
+            })
+            //只要滚动就回触发该事件
+            this.scroll.on('scroll',(position)=>{
+                this.$emit('getPosition',position)
+            })
+        },
+        methods:{
+            finishPullUp(){
+                this.scroll.finishPullUp()
+            },
+            scrollTo(x,y,time=500){
+                this.scroll.scrollTo(x,y,time)
+            }
         }
     }
 </script>
