@@ -4,7 +4,8 @@ import axios from 'axios'
     baseURL:'http://123.207.32.32:8000/api/hy',  俩地址都可以
     baseURL:'http://106.54.54.237:8000/api/hy',
 */
-axios.defaults.baseURL = 'http://123.207.32.32:8000/api/hy'
+// axios.defaults.baseURL = 'http://123.207.32.32:8000/api/hy'
+axios.defaults.baseURL = 'http://106.54.54.237:8000/api/hy'
 axios.interceptors.response.use(res=>res.data)
 
 export default function request(url,data={},method='get'){

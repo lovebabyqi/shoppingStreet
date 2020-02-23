@@ -9,12 +9,12 @@
                 v-show="isShowTabControl"
                 @tabClick="tabClick"
                 :titles="Object.values(types)"/>
-        <my-scroll
+        <common-scroll
                 @loadMore="loadMore"
                 @getPosition="getPosition"
                 ref="scroll"
         >
-            <common-swiper :banner="banner"/>
+            <common-swiper :padding-bottom="'52%'" :banner="banner"/>
             <home-recommend :recommend="recommend"/>
             <home-popular/>
             <tab-control
@@ -22,7 +22,7 @@
                     @tabClick="tabClick"
                     :titles="Object.values(types)"/>
             <good-list :goods="goods[currentType].list"/>
-        </my-scroll>
+        </common-scroll>
         <back-top @backTop="backTop" v-show="isShowBackTop"></back-top>
     </div>
 </template>
@@ -75,7 +75,7 @@
             async getHomeMultidata() {
                 const result = await reqHomeMultidata()
                 const data = result.data
-                this.banner = data.banner.list
+                this.banner = data.banner.list.map(item=>item.image)
                 this.recommend = data.recommend.list
             },
             async getHomeGoods(type) {

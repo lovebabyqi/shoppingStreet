@@ -4,7 +4,7 @@ const Home = () => import('views/home/Home.vue')
 const Category = () => import('views/category/Category.vue')
 const Profile = () => import('views/profile/Profile.vue')
 const Market = () => import('views/market/Market.vue')
-
+const Detail = ()   =>import('views/detail/Detail')
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,6 +32,11 @@ const routes = [
         component: Profile,
         meta: { index: 3 }
     },
+    {
+        path:'/detail/:iid',
+        component:Detail,
+        meta:{index:4}
+    }
 ]
 
 const router = new VueRouter({

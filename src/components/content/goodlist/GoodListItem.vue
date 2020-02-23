@@ -1,5 +1,5 @@
 <template>
-    <div class="good-list-item">
+    <div class="good-list-item" @click="handleToDetail">
         <img v-lazy="goodsInfo.show.img" alt="">
         <div class="goods-info">
             <p>{{goodsInfo.title}}</p>
@@ -18,6 +18,12 @@
                 default(){
                     return{}
                 }
+            }
+        },
+        methods:{
+            handleToDetail(){
+                const iid = this.goodsInfo.iid
+                this.$router.push(`/detail/${iid}`)
             }
         }
     }
