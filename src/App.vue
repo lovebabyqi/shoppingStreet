@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <slider-transition :name="name">
-            <router-view class="center"/>
+            <keep-alive exclude="Detail">
+                <router-view class="center"/>
+            </keep-alive>
         </slider-transition>
         <main-tab-bar/>
     </div>

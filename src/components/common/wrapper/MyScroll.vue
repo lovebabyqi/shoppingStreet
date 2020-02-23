@@ -9,7 +9,7 @@
 <script>
     import BScroll from 'better-scroll'
     export default {
-        name: "MyScroll",
+        name: "CommonScroll",
         data(){
             return {
                 scroll:null

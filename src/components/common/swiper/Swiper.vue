@@ -1,11 +1,11 @@
 <template>
-    <div v-if="this.banner.length!==0">
-        <swiper :options="swiperOption" class="swiper">
-                <swiper-slide v-for="item in banner">
-                    <img :src="item.image" alt="">
+    <div class="swiper" :style="{paddingBottom}">
+            <swiper :options="swiperOption" v-if="this.banner.length!==0">
+                <swiper-slide v-for="item in banner" :key="item.acm">
+                    <img :src="item" alt="">
                 </swiper-slide>
                 <div class="swiper-pagination"  slot="pagination"></div>
-        </swiper>
+            </swiper>
     </div>
 </template>
 
@@ -18,6 +18,9 @@
                 default(){
                     return []
                 }
+            },
+            paddingBottom:{
+                type:String
             }
         },
         data(){
@@ -39,12 +42,17 @@
 <style scoped>
 
     .swiper{
+        position: relative;
+        overflow: hidden;
         height:0;
-        padding-bottom: 52%;
+        /*padding-bottom: 52%;*/
     }
     /*height:0设置padding填充 防止轮播图由于图片加载造成重排抖动*/
     .swiper img{
         width:100%;
+    }
+    .swiper /deep/ .swiper-container{
+        position: static;
     }
     /*  /deep/  >>> 是注入css   修改第三方组件库默认的样式*/
     .swiper /deep/ .swiper-pagination-bullet-active{
