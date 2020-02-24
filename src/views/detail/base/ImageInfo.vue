@@ -26,6 +26,11 @@
                 }
             }
         },
+        data(){
+            return {
+                count:0
+            }
+        },
         computed:{
             images(){
                 return this.imageInfo.detailImage[0].list
@@ -33,7 +38,10 @@
         },
         methods:{
             imageLoad(){
-
+                this.count++
+                if(this.count===this.images.length){
+                    this.$emit('imageLoad')
+                }
             }
         }
     }

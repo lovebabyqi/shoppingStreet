@@ -13,6 +13,7 @@
                 @loadMore="loadMore"
                 @getPosition="getPosition"
                 ref="scroll"
+                :pullUpLoad="true"
         >
             <common-swiper :padding-bottom="'52%'" :banner="banner"/>
             <home-recommend :recommend="recommend"/>
@@ -28,12 +29,12 @@
 </template>
 
 <script>
-    import BackTop from "components/content/backTop/BackTop";
     import TabControl from "components/content/tabcontrol/TabControl";
     import GoodList from "components/content/goodlist/GoodList";
     import HomePopular from "./base/Popular";
     import HomeRecommend from "./base/Recommend";
     import {reqHomeMultidata, reqHomeGoods} from 'api/home'
+    import {backTopMixin} from 'utils/mixins'
 
     export default {
         name: "Home",
@@ -43,7 +44,6 @@
                 recommend: [],//推荐数据
                 currentType: 'pop',//记录tab切换的类型
                 isShowTabControl: false,//默认不显示第一个tabControl
-                isShowBackTop:false,//默认不显示backTop
                 types: {
                     pop: '流行',
                     new: '新款',
@@ -71,6 +71,7 @@
             this.getHomeGoods('new')
             this.getHomeGoods('sell')
         },
+        mixins:[backTopMixin],
         methods: {
             async getHomeMultidata() {
                 const result = await reqHomeMultidata()
@@ -99,16 +100,12 @@
                 this.isShowTabControl = isShowTabControl
                 this.isShowBackTop = positionY>1000
             },
-            backTop(){
-                this.$refs.scroll.scrollTo(0,0)
-            }
         },
         components: {
             HomePopular,
             HomeRecommend,
             TabControl,
             GoodList,
-            BackTop
         }
     }
 </script>

@@ -1,15 +1,19 @@
 <template>
     <div class="detail">
-        <detail-nav-bar @itemClick="itemClick"></detail-nav-bar>
-        <common-scroll ref="scroll">
+        <detail-nav-bar ref="navbar" @itemClick="itemClick"></detail-nav-bar>
+        <common-scroll
+                :probeType="3"
+                @getPosition="getPosition"
+                ref="scroll">
             <common-swiper :padding-bottom="'80%'" :banner="banner"/>
             <detail-good-info :good-info="goodInfo"/>
             <detail-shop-info :shop="shopInfo"/>
-            <detail-image-info :image-info="imageInfo"/>
+            <detail-image-info @imageLoad="imageLoad" :image-info="imageInfo"/>
             <detail-params-info ref="params" :params-info="paramsInfo"/>
             <detail-comment-info ref="comment" :comment-info="commentInfo"/>
             <good-list ref="good" :goods="recommendInfo"/>
         </common-scroll>
+        <back-top @backTop="backTop" v-show="isShowBackTop"></back-top>
     </div>
 </template>
 
@@ -22,13 +26,14 @@
         CommentInfo,
         reqRecommends
     } from 'api/detail'
+    import {backTopMixin} from 'utils/mixins'
     import DetailNavBar from './base/NavBar'
     import DetailGoodInfo from './base/GoodInfo'
     import DetailShopInfo from './base/ShopInfo'
     import DetailImageInfo from './base/ImageInfo'
     import DetailParamsInfo from './base/ParamsInfo'
     import DetailCommentInfo from './base/CommentInfo'
-    import GoodList from "components/content/goodlist/GoodList";
+    import GoodList from "components/content/goodlist/GoodList"
     export default {
         name: "Detail",
         data(){
@@ -40,6 +45,7 @@
                 paramsInfo:{},
                 commentInfo:{},
                 recommendInfo:[],
+                offsetTopList:[],//记录滚动位置到达对应offsetTop,NavBar的currentIndex对应修改
             }
         },
         components:{
@@ -55,6 +61,7 @@
             this.getDetails()
             this.getRecommends()
         },
+        mixins:[backTopMixin],
         methods:{
             async getDetails(){
                 const iid = this.$route.params.iid
@@ -81,16 +88,40 @@
                 //获取推荐的图片数据
                 this.recommendInfo = result.data.list
             },
-            itemClick(index){
-                this.offsetTopList = []
+            imageLoad(){   //图片加载完成再填充offsetTopList
                 this.offsetTopList.push(
                     0,
                     this.$refs.params.$el.offsetTop,
                     this.$refs.comment.$el.offsetTop,
                     this.$refs.good.$el.offsetTop,
+                    100000
                 )
+            },
+            getPosition(position){
+                // console.log(position)
+                const positionY = -position.y
+                this.isShowBackTop = positionY>1000
+                const [a,paramsOffsetTop,commentOffsetTop,goodsOffsetTop] = this.offsetTopList
+                // if(positionY>=a&&positionY<paramsOffsetTop){
+                //     this.$refs.navbar.currentIndex = 0
+                // }else if(positionY>=paramsOffsetTop&&positionY<commentOffsetTop){
+                //     this.$refs.navbar.currentIndex = 1
+                // }else if(positionY>=commentOffsetTop&&positionY<goodsOffsetTop){
+                //     this.$refs.navbar.currentIndex = 2
+                // }else if(positionY>=goodsOffsetTop){
+                //     this.$refs.navbar.currentIndex = 3
+                for(let i in this.offsetTopList){
+                    if(i == this.offsetTopList.length-1)break
+
+                    if(i<4&&positionY>=this.offsetTopList[i]&&positionY<this.offsetTopList[+i+1]){
+                        this.$refs.navbar.currentIndex = + i
+                    }
+                }
+            },
+            itemClick(index){
+                // this.offsetTopList = []
                 this.$refs.scroll.scrollTo(0,-this.offsetTopList[index],200)
-            }
+            },
         }
     }
 </script>
