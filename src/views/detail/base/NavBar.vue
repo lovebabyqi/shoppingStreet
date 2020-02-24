@@ -9,7 +9,7 @@
                             v-for="(item,index) in titles"
                             :key="index"
                             :class='{active:currentIndex===index}'
-                            @click="currentIndex=index"
+                            @click="handleClick(index)"
                     >{{item}}</li>
                 </ul>
             </template>
@@ -21,13 +21,17 @@
         name: "DetailNavBar",
         data(){
             return{
-                titles:['商品','评论','参数','推荐'],
+                titles:['商品','参数','评论','推荐'],
                 currentIndex:0
             }
         },
         methods:{
             goBack(){
                 this.$router.go(-1)
+            },
+            handleClick(index){
+                this.currentIndex = index
+                this.$emit('itemClick',index)
             }
         }
     }

@@ -1,36 +1,59 @@
 <template>
     <div class="detail">
-        <detail-nav-bar></detail-nav-bar>
-        <common-scroll>
-            <common-swiper :padding-bottom="'80%'" :banner="banner"></common-swiper>
-            <detail-goods-info :good-info="goodInfo"></detail-goods-info>
-            <detail-shop-info :shop="shopInfo"></detail-shop-info>
-            <div v-for="item in 100">{{item}}</div>
+        <detail-nav-bar @itemClick="itemClick"></detail-nav-bar>
+        <common-scroll ref="scroll">
+            <common-swiper :padding-bottom="'80%'" :banner="banner"/>
+            <detail-good-info :good-info="goodInfo"/>
+            <detail-shop-info :shop="shopInfo"/>
+            <detail-image-info :image-info="imageInfo"/>
+            <detail-params-info ref="params" :params-info="paramsInfo"/>
+            <detail-comment-info ref="comment" :comment-info="commentInfo"/>
+            <good-list ref="good" :goods="recommendInfo"/>
         </common-scroll>
     </div>
 </template>
 
 <script>
-    import {reqDetails,GoodsInfo,ShopInfo} from 'api/detail'
+    import {
+        reqDetails,
+        GoodsInfo,
+        ShopInfo,
+        GoodsParam,
+        CommentInfo,
+        reqRecommends
+    } from 'api/detail'
     import DetailNavBar from './base/NavBar'
-    import DetailGoodsInfo from './base/GoodsInfo'
+    import DetailGoodInfo from './base/GoodInfo'
     import DetailShopInfo from './base/ShopInfo'
+    import DetailImageInfo from './base/ImageInfo'
+    import DetailParamsInfo from './base/ParamsInfo'
+    import DetailCommentInfo from './base/CommentInfo'
+    import GoodList from "components/content/goodlist/GoodList";
     export default {
         name: "Detail",
         data(){
             return{
                 banner:[],
                 goodInfo:{},
-                shopInfo:{}
+                shopInfo:{},
+                imageInfo:{},
+                paramsInfo:{},
+                commentInfo:{},
+                recommendInfo:[],
             }
         },
         components:{
             DetailNavBar,
-            DetailGoodsInfo,
-            DetailShopInfo
+            DetailGoodInfo,
+            DetailShopInfo,
+            DetailImageInfo,
+            DetailParamsInfo,
+            DetailCommentInfo,
+            GoodList
         },
         created(){
             this.getDetails()
+            this.getRecommends()
         },
         methods:{
             async getDetails(){
@@ -42,6 +65,31 @@
                 this.goodInfo = new GoodsInfo(result.itemInfo,result.columns,result.shopInfo.services)
                 //商铺信息
                 this.shopInfo = new ShopInfo(result.shopInfo)
+                //商品图片信息
+                this.imageInfo = result.detailInfo
+                //商品参数信息
+                this.paramsInfo = new GoodsParam(result.itemParams.info, result.itemParams.rule)
+                //评论信息
+                //评论信息
+                if (result.rate.cRate !== 0) {
+                    this.commentInfo = new CommentInfo(result.rate.list[0]);
+                }
+            },
+            async getRecommends(){
+                const result = await reqRecommends()
+                // console.log(result)
+                //获取推荐的图片数据
+                this.recommendInfo = result.data.list
+            },
+            itemClick(index){
+                this.offsetTopList = []
+                this.offsetTopList.push(
+                    0,
+                    this.$refs.params.$el.offsetTop,
+                    this.$refs.comment.$el.offsetTop,
+                    this.$refs.good.$el.offsetTop,
+                )
+                this.$refs.scroll.scrollTo(0,-this.offsetTopList[index],200)
             }
         }
     }
