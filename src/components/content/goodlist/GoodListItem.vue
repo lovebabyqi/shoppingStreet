@@ -23,7 +23,9 @@
         methods:{
             handleToDetail(){
                 const iid = this.goodsInfo.iid
-                this.$router.push(`/detail/${iid}`)
+                if(this.$route.path.includes('home')){
+                    this.$router.push(`/detail/${iid}`)
+                }
             }
         },
         computed:{

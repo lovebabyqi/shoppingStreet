@@ -15,7 +15,7 @@
     }
 </script>
 
-<style scoped lang="less">
+<style scoped>
     .back-top{
         position:fixed;
         width:50px;
