@@ -4,6 +4,9 @@ import request from './request'
 export const reqDetails = iid => request('/detail', { iid })
 
 
+//请求推荐的图片的数据
+export const reqRecommends = () => request('/recommend')
+
 //整合商品数据
 export function GoodsInfo(itemInfo, columns, services) {
     this.title = itemInfo.title;
@@ -24,4 +27,21 @@ export function ShopInfo(shopInfo) {
     this.sells = shopInfo.cSells;
     this.score = shopInfo.score;
     this.goodsCount = shopInfo.cGoods
+}
+
+//整合参数的数据
+export function GoodsParam(info, rule) {
+    // 注: images可能没有值(某些商品有值, 某些没有值)
+    this.image = info.images ? info.images[0] : '';
+    this.infos = info.set;
+    this.sizes = rule.tables;
+}
+
+//整合评论的数据
+export function CommentInfo(commentInfo) {
+    this.user = commentInfo.user
+    this.content = commentInfo.content
+    this.created = commentInfo.created
+    this.style = commentInfo.style
+    this.images = commentInfo.images
 }

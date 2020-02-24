@@ -6,6 +6,7 @@ module.exports = {
                 'components': '@/components',
                 'api': '@/api',
                 'views': '@/views',
+                'utils':'@/utils'
             }
         },
     }
