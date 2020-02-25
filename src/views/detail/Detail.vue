@@ -13,7 +13,8 @@
             <detail-comment-info ref="comment" :comment-info="commentInfo"/>
             <good-list ref="good" :goods="recommendInfo"/>
         </common-scroll>
-        <back-top @backTop="backTop" v-show="isShowBackTop"></back-top>
+        <detail-bottom-bar/>
+        <back-top @backTop="backTop" v-show="isShowBackTop"/>
     </div>
 </template>
 
@@ -34,6 +35,7 @@
     import DetailParamsInfo from './base/ParamsInfo'
     import DetailCommentInfo from './base/CommentInfo'
     import GoodList from "components/content/goodlist/GoodList"
+    import DetailBottomBar from './base/BottomBar'
     export default {
         name: "Detail",
         data(){
@@ -55,7 +57,8 @@
             DetailImageInfo,
             DetailParamsInfo,
             DetailCommentInfo,
-            GoodList
+            GoodList,
+            DetailBottomBar
         },
         created(){
             this.getDetails()
