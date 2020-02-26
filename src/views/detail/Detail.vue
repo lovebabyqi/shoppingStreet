@@ -13,7 +13,7 @@
             <detail-comment-info ref="comment" :comment-info="commentInfo"/>
             <good-list ref="good" :goods="recommendInfo"/>
         </common-scroll>
-        <detail-bottom-bar/>
+        <detail-bottom-bar @addMarket="addMarket"/>
         <back-top @backTop="backTop" v-show="isShowBackTop"/>
     </div>
 </template>
@@ -48,6 +48,7 @@
                 commentInfo:{},
                 recommendInfo:[],
                 offsetTopList:[],//记录滚动位置到达对应offsetTop,NavBar的currentIndex对应修改
+                iid:''
             }
         },
         components:{
@@ -67,8 +68,8 @@
         mixins:[backTopMixin],
         methods:{
             async getDetails(){
-                const iid = this.$route.params.iid
-                const {result} = await reqDetails(iid)
+                this.iid = this.$route.params.iid
+                const {result} = await reqDetails(this.iid)
                 //轮播图数据
                 this.banner = result.itemInfo.topImages
                 //商品信息
@@ -115,8 +116,8 @@
                 //     this.$refs.navbar.currentIndex = 3
                 for(let i in this.offsetTopList){
                     if(i == this.offsetTopList.length-1)break
-
-                    if(i<4&&positionY>=this.offsetTopList[i]&&positionY<this.offsetTopList[+i+1]){
+                    let currentIndex = this.$refs.navbar.currentIndex
+                    if(currentIndex!=i&&positionY>=this.offsetTopList[i]&&positionY<this.offsetTopList[+i+1]){
                         this.$refs.navbar.currentIndex = + i
                     }
                 }
@@ -125,6 +126,16 @@
                 // this.offsetTopList = []
                 this.$refs.scroll.scrollTo(0,-this.offsetTopList[index],200)
             },
+            addMarket(){//把商品数据添加到购物车里面
+                const product = {}
+                product.image = this.banner[0]
+                product.title = this.goodInfo.title
+                product.desc = this.goodInfo.desc
+                product.price = this.goodInfo.realPrice
+                product.iid = this.iid
+                this.$store.commit('addMarket',product)
+                alert(this.$store.getters.count(this.iid));
+            }
         }
     }
 </script>

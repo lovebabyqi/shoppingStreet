@@ -5,7 +5,7 @@
                 <router-view class="center"/>
             </keep-alive>
         </slider-transition>
-        <main-tab-bar/>
+        <main-tab-bar v-show="!$route.path.includes('detail')"/>
     </div>
 </template>
 <script>

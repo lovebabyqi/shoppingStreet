@@ -25,17 +25,17 @@ const routes = [
     {
         path: '/market',
         component: Market,
-        meta: { index: 2 }
+        meta: { index: 3 }
     },
     {
         path: '/profile',
         component: Profile,
-        meta: { index: 3 }
+        meta: { index: 4 }
     },
     {
         path:'/detail/:iid',
         component:Detail,
-        meta:{index:4}
+        meta:{index:2}
     }
 ]
 
