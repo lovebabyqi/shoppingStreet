@@ -8,6 +8,7 @@ import VueLazyload from 'vue-lazyload';
 Vue.use(VueLazyload, {
     loading:require('assets/img/common/placeholder.png')
 })
+import store from './views/store'
 //全局注册
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 // require styles
@@ -17,8 +18,9 @@ Vue.use(VueAwesomeSwiper, /* { default global options } */)
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
 
 /*

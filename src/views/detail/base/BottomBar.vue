@@ -16,7 +16,7 @@
         </div>
         <div class="bar-item bar-right">
             <div class="cart" @click="addMarket">加入购物车</div>
-            <div class="buy">购买</div>
+            <div class="buy" @click="goMarket">购买</div>
         </div>
     </div>
 </template>
@@ -25,8 +25,12 @@
     export default {
         name: "DetailBottomBar",
         methods:{
-            addMarket(){
+            addMarket(){//把商品数据添加到Vuex里面,要添加的数据在detail组件
                 console.log('加入购物车');
+                this.$emit('addMarket')
+            },
+            goMarket(){
+                this.$router.push('/market')
             }
         }
     }
