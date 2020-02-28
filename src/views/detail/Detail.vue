@@ -27,6 +27,7 @@
         CommentInfo,
         reqRecommends
     } from 'api/detail'
+    import {mapGetters} from 'vuex'
     import {backTopMixin} from 'utils/mixins'
     import DetailNavBar from './base/NavBar'
     import DetailGoodInfo from './base/GoodInfo'
@@ -64,6 +65,9 @@
         created(){
             this.getDetails()
             this.getRecommends()
+        },
+        computed:{
+            ...mapGetters(['count'])
         },
         mixins:[backTopMixin],
         methods:{
@@ -134,7 +138,9 @@
                 product.price = this.goodInfo.realPrice
                 product.iid = this.iid
                 this.$store.commit('addMarket',product)
-                alert(this.$store.getters.count(this.iid));
+                // alert(this.$store.getters.count(this.iid));
+                this.$toast.show(`购物车中的数量为${this.count(this.iid)}`)
+                console.log(this.$toast);
             }
         }
     }

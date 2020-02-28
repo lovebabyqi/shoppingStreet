@@ -26,26 +26,41 @@ const store =  new Vuex.Store({
         updateCheck(state,payload){
             const product = state.products.find(item=>item.iid===payload)
             product.checked = !product.checked
+        },
+        selectAll(state,payload){
+            state.products.forEach(item=>item.checked = payload)
         }
     },
     actions:{
 
     },
     getters:{
-        count(state,getters){
+        count(state){//添加的某类商品的数量
             return function(iid){//返回一个函数,可以接收参数
                 const product = state.products.find(item=>item.iid === iid)
                 return product.count
             }
         },
-        productLength(state,getters){
+        productLength(state){//所有商品种类的数量
             return state.products.length
+        },
+        isSelectAll(state){//全选按钮是否选中
+            return state.products.every(item=>item.checked)
+        },
+        selectedProductsLength(state){//选中商品的数量
+            return state.products.filter(item=>item.checked).length
+        },
+        total(state){//计算所有选中商品的 价格总和
+            return state.products.reduce((pre,next)=>{
+                return pre + (next.checked?next.count*next.price:0)
+            },0)
         }
     }
 })
 //监听mutations里面的方法,一旦执行了,state数据一定就改变了
 store.subscribe(function(mutations,state){
     //console.log(arguments);
+    //数据改变就存储(跟新)到本地
     localStorage.setItem('products',JSON.stringify(state.products))
 
 })

@@ -1,22 +1,22 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-
+import ToastPlugin from "./plugins";
 //让components/common/index 执行
 import 'components/common'
 import VueLazyload from 'vue-lazyload';
-Vue.use(VueLazyload, {
-    loading:require('assets/img/common/placeholder.png')
-})
-import store from './views/store'
+import store from './store'
 //全局注册
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 // require styles
 import 'swiper/dist/css/swiper.css'
 
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
+Vue.use(VueLazyload, {
+    loading:require('assets/img/common/placeholder.png')
+})
+Vue.use(ToastPlugin)
 Vue.config.productionTip = false
-
 new Vue({
     router,
     store,

@@ -1,6 +1,6 @@
 <template>
     <div id="shop-item">
-        <check-button :checked="product.checked" :iid="product.iid"/>
+        <check-button :checked="product.checked" @click.native="btnCheck"/>
         <div class="item-img">
             <img :src="product.image" alt="">
         </div>
@@ -25,6 +25,11 @@
                 default(){
                     return {}
                 }
+            }
+        },
+        methods:{
+            btnCheck(){
+                this.$store.commit('updateCheck',this.product.iid)
             }
         },
         components:{

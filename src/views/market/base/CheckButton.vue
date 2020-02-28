@@ -1,5 +1,5 @@
 <template>
-    <div class="icon-selector" @click="btnClick" :class="{'selector-active':checked}">
+    <div class="icon-selector" :class="{'selector-active':checked}">
         <img src="~assets/img/cart/tick.svg" alt="">
     </div>
 </template>
@@ -12,15 +12,15 @@
                 type:Boolean,
                 default:true
             },
-            iid:{
-                type:String,
-                default:''
-            }
+            // iid:{
+            //     type:String,
+            //     default:''
+            // }
         },
         methods:{
-            btnClick(){
-                this.$store.commit('updateCheck',this.iid)
-            }
+            // btnClick(){
+            //     this.$store.commit('updateCheck',this.iid)
+            // }
         }
     }
 </script>

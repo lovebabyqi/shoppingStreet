@@ -1,28 +1,30 @@
 <template>
     <div class="bottom-bar">
-        <check-bottom class="select-all" @click.native="btnSelectAll" :check="isChecked"></check-bottom>
-<!--        <check-button class="select-all" @click.native="btnSelectAll" ></check-button>-->
+        <check-button class="select-all" @click.native="btnSelectAll" :checked="isSelectAll"></check-button>
         <span>全选</span>
-        <span class="total-price">合计:¥0.00</span>
-        <span class="buy-product" @click="handlePay">去结算(0)</span>
+        <span class="total-price">合计:¥{{total.toFixed(2)}}</span>
+        <span class="buy-product" @click="handlePay">去结算({{selectedProductsLength}})</span>
     </div>
 </template>
 
 <script>
     import CheckButton from "./CheckButton";
-
+    import {mapGetters,mapMutations} from 'vuex'
     export default {
         name: "BottomBar",
         components: {
             CheckButton
         },
+        computed:{
+            ...mapGetters(['isSelectAll','selectedProductsLength','total'])
+        },
         methods: {
+            ...mapMutations(['selectAll']),
             btnSelectAll(){
-
-
+                this.selectAll(!this.isSelectAll)
             },
             handlePay() {
-                console.log('去结算');
+                this.$toast.show(`商品总和为${this.total.toFixed(2)}`)
             }
         }
     }
