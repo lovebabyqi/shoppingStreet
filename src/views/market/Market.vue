@@ -3,16 +3,34 @@
         <common-nav-bar>
             <template #middle>购物车({{$store.getters.productLength}})</template>
         </common-nav-bar>
-        <product-list/>
+        <common-scroll
+                @getPosition="getPosition"
+                ref="scroll"
+                :probe-type="3"
+        >
+            <product-list/>
+        </common-scroll>
+        <bottom-bar></bottom-bar>
+        <back-top @backTop="backTop" v-show="isShowBackTop" :bottom="'100px'"></back-top>
     </div>
 </template>
 
 <script>
+    import {backTopMixin} from 'utils/mixins'
     import ProductList from "./base/ProductList";
+    import BottomBar from "./base/BottomBar";
     export default {
         name: "Market",
         components:{
             ProductList,
+            BottomBar
+        },
+        mixins:[backTopMixin],
+        methods:{
+            getPosition(position){
+                const positionY = -position.y
+                this.isShowBackTop = positionY>100
+            }
         }
     }
 </script>
@@ -24,5 +42,12 @@
             color:#fff;
             font-weight: bold;
         }
+    }
+    .wrapper{
+        position: fixed;
+        top: 44px;
+        bottom: 93px;
+        left: 0;
+        right: 0;
     }
 </style>

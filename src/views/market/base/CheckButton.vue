@@ -1,7 +1,6 @@
 <template>
     <div class="icon-selector" @click="btnClick" :class="{'selector-active':checked}">
         <img src="~assets/img/cart/tick.svg" alt="">
-
     </div>
 </template>
 
