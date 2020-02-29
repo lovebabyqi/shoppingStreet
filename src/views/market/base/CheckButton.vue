@@ -8,21 +8,22 @@
 
     export default {
         name: "CheckButton",
-        props:{
-            checked:{
-                type:Boolean,
-                default:true
+        props: {
+            checked: {
+                type: Boolean,
+                default: true
             },
             // iid:{
             //     type:String,
             //     default:''
-
+        },
         methods:{
             // btnClick(){
             //     this.$store.commit('updateCheck',this.iid)
             // }
         }
     }
+
 </script>
 
 <style scoped>
