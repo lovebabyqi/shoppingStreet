@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
     export default {
         name: "CheckButton",
         props:{
@@ -15,8 +16,7 @@
             // iid:{
             //     type:String,
             //     default:''
-            // }
-        },
+
         methods:{
             // btnClick(){
             //     this.$store.commit('updateCheck',this.iid)
