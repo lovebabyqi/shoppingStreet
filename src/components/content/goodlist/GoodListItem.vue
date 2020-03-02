@@ -25,12 +25,14 @@
                 const iid = this.goodsInfo.iid
                 if(this.$route.path.includes('home')){
                     this.$router.push(`/detail/${iid}`)
+                }else{
+                    this.$router.push(`/detail/${iid}`)
                 }
             }
         },
         computed:{
             showImage(){
-                return this.goodsInfo.image||this.goodsInfo.show.img
+                return this.goodsInfo.image||this.goodsInfo.img||this.goodsInfo.show.img
             }
         }
     }
