@@ -25,7 +25,10 @@ const routes = [
     {
         path: '/market',
         component: Market,
-        meta: { index: 3 }
+        meta: { index: 3 ,requireAuth:true}
+        //添加requireAuth值为true,表示我们需要让market组件进行权限验证
+        //如果购物车中有数据,那就可以访问Market组件,即通过验证
+        //如果购物车中无数据,就不能通过验证,不能访问Market组件
     },
     {
         path: '/profile',
@@ -39,9 +42,22 @@ const routes = [
     }
 ]
 
+
 const router = new VueRouter({
     mode: 'history',
     routes
+})
+//监听路由的跳转   跳转路由就会触发
+router.beforeEach((to,from,next)=>{
+    if(to.meta.requireAuth){
+        if(localStorage.getItem('products')){   //如果获取到了数据,说明购物车中有数据
+            next()
+        }else{
+            next('/home')
+        }
+    }else{
+        next()
+    }
 })
 
 export default router

@@ -1,6 +1,6 @@
 <template>
     <div class="good-list-item" @click="handleToDetail">
-        <img v-lazy="showImage" alt="">
+        <img v-lazy="showImage" alt="" @load="imageLoad">
         <div class="goods-info">
             <p>{{goodsInfo.title}}</p>
             <span class="price">￥{{goodsInfo.price}}</span>
@@ -28,6 +28,9 @@
                 }else{
                     this.$router.push(`/detail/${iid}`)
                 }
+            },
+            imageLoad(){
+                this.$bus.$emit('imageLoad')
             }
         },
         computed:{

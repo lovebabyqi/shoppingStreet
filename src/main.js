@@ -11,17 +11,20 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 // require styles
 import 'swiper/dist/css/swiper.css'
 
-Vue.use(VueAwesomeSwiper, /* { default global options } */)
+//事件车   把实例放到Vue原型
+Vue.prototype.$bus = new Vue();
+
+Vue.use(VueAwesomeSwiper, /* { default global options } */);
 Vue.use(VueLazyload, {
     loading:require('assets/img/common/placeholder.png')
-})
-Vue.use(ToastPlugin)
-Vue.config.productionTip = false
+});
+Vue.use(ToastPlugin);
+Vue.config.productionTip = false;
 new Vue({
     router,
     store,
     render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
 
 /*
 * components

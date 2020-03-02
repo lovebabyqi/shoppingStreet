@@ -47,8 +47,12 @@
             },
             scrollTo(x,y,time=500){
                 this.scroll.scrollTo(x,y,time)
+            },
+            refresh(){//重新计算可滚动内容的高度
+                this.scroll.refresh()
             }
-        }
+        },
+
     }
 </script>
 

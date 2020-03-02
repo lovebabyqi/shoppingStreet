@@ -140,7 +140,6 @@
                 this.$store.commit('addMarket',product)
                 // alert(this.$store.getters.count(this.iid));
                 this.$toast.show(`购物车中的数量为${this.count(this.iid)}`)
-                console.log(this.$toast);
             }
         }
     }
