@@ -71,6 +71,19 @@
             this.getHomeGoods('new')
             this.getHomeGoods('sell')
         },
+        mounted(){
+            //减少this.$refs.scroll.refresh()的执行频率
+            //防抖
+            const debounce = function(fn,time){
+              let timer = null;
+              return function(){
+                  clearTimeout(timer);
+                  timer = setTimeout(fn,time)
+              }
+            };
+            const fresh = debounce(this.$refs.scroll.refresh,500)
+            this.$bus.$on('imageLoad',fresh)
+        },
         mixins:[backTopMixin],
         methods: {
             async getHomeMultidata() {

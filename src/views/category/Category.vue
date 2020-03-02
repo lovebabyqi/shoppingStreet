@@ -16,7 +16,7 @@
             />
             <category-tab-control
                     @tabClick="tabClick"
-                    :titles="['综合','新品','销量']"
+                    :titles="Object.values(this.typeList)"
             />
             <good-list :goods="goods[currentType].list"/>
         </common-scroll>
@@ -38,7 +38,8 @@
                 currentIndex:0,
                 subCategory:[],
                 currentType:'pop',
-                typeList:['pop','new','sell'],
+                // typeList:['pop','new','sell'],
+                typeList:{'pop':'综合','new':'新品','sell':'销量'},
                 goods:{
                     pop:{
                         list:[]
@@ -59,14 +60,22 @@
             itemClick(index){
                 this.currentIndex = index
                 this.getSubCategory()
+                // this.getSubCategoryDetail('pop')  //请求pop类型的数据
+                // this.getSubCategoryDetail('sell')  //请求pop类型的数据
+                // this.getSubCategoryDetail('new')  //请求pop类型的数据
+                Object.keys(this.typeList).forEach((item)=>this.getSubCategoryDetail(item))
             },
             tabClick(index) {
-                this.currentType = this.typeList[index]
+                this.currentType = Object.keys(this.typeList)[index]
             },
             async getCategory() {
                 const result = await reqCategory()
                 this.categorys = result.data.category.list
                 this.getSubCategory()
+                // this.getSubCategoryDetail('pop')  //请求pop类型的数据
+                // this.getSubCategoryDetail('sell')  //请求pop类型的数据
+                // this.getSubCategoryDetail('new')  //请求pop类型的数据
+                Object.keys(this.typeList).forEach((item)=>this.getSubCategoryDetail(item))
 
             },
             async getSubCategory(){
@@ -74,9 +83,7 @@
                 const result = await reqSubcategory(maitKey)
                 this.subCategory = result.data.list
                 //请求右侧下面的数据,用于渲染GoodList    基于指定商品的miniWallkey
-                this.getSubCategoryDetail('pop')  //请求pop类型的数据
-                this.getSubCategoryDetail('sell')  //请求pop类型的数据
-                this.getSubCategoryDetail('new')  //请求pop类型的数据
+
             },
             async getSubCategoryDetail(type){
                 const {miniWallkey} = this.categorys[this.currentIndex]
