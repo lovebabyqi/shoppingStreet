@@ -3,7 +3,7 @@
         <good-list-item
                 v-for="item in goods"
                 :goods-info="item"
-                :keys="item.clientUrl"
+                :keys="item.iid"
                 />
     </div>
 </template>
