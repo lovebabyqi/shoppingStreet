@@ -8,6 +8,14 @@ module.exports = {
                 'views': '@/views',
                 'utils':'@/utils',
             }
-        },
+        }
     }
-}
+
+};
+
+// externals: {
+//     Vue: 'Vue',
+//     vuex: 'vuex',
+//     vueRouter: 'vue-router',
+//     axios:'axios'
+// },

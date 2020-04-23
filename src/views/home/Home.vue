@@ -95,7 +95,10 @@
             async getHomeGoods(type) {
                 const page = ++this.goods[type].page
                 const result = await reqHomeGoods(type, page)
-                this.goods[type].list.push(...result.data.list)
+                if(result){
+                    this.goods[type].list.push(...result.data.list)
+                }
+                
             },
             tabClick(index) {
                 this.currentType = Object.keys(this.types)[index]
