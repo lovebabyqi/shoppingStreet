@@ -9,8 +9,8 @@ module.exports = {
                 'utils':'@/utils',
             }
         }
-    }
-
+    },
+    productionSourceMap: false,
 };
 
 // externals: {

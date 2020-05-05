@@ -82,7 +82,12 @@
               }
             };
             const fresh = debounce(this.$refs.scroll.refresh,500)
-            this.$bus.$on('imageLoad',fresh)
+            this.$bus.$on('imageLoad',fresh);
+            this.$nextTick(()=>{
+                window.onresize = ()=>{
+                    this.$refs.scroll.refresh()
+                }
+            })
         },
         mixins:[backTopMixin],
         methods: {
